@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Speak 360 - Next-Gen Spatial Audio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f3ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            cyan: '#06b6d4',
+                            magenta: '#d946ef',
+                            amber: '#f59e0b'
+                        },
+                        darkBg: '#090d16',
+                        darkCard: 'rgba(17, 24, 39, 0.75)',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace']
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 25px -5px rgba(6, 182, 212, 0.5)',
+                        'neon-indigo': '0 0 25px -5px rgba(99, 102, 241, 0.5)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #060911;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 9999px;
+        }
+        .pulse-ring {
+            box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+            animation: pulse-ring 2s infinite cubic-bezier(0.66, 0, 0, 1);
+        }
+        @keyframes pulse-ring {
+            to {
+                box-shadow: 0 0 0 25px rgba(99, 102, 241, 0);
+            }
+        }
+        /* Custom Tooltip Hotspot Animation */
+        @keyframes ping-slow {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.5); opacity: 0.2; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        .animate-ping-slow {
+            animation: ping-slow 2.5s infinite;
+        }
+    </style>
+</head>
+<body class="selection:bg-brand-500 selection:text-white relative">
+
+    <!-- Ambient Gradient Background Shapes -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-brand-500/10 rounded-full filter blur-[120px] pointer-events-none -z-10 animate-pulse"></div>
+    <div class="fixed bottom-10 right-10 w-[30rem] h-[30rem] bg-brand-cyan/10 rounded-full filter blur-[140px] pointer-events-none -z-10"></div>
+
+    <!-- Announcement Bar -->
+    <div class="bg-gradient-to-r from-brand-600 via-brand-cyan to-brand-magenta text-white text-xs font-semibold py-2 px-4 text-center tracking-wide flex items-center justify-center gap-2">
+        <span class="bg-white/20 px-2 py-0.5 rounded-full text-[10px] uppercase font-bold tracking-wider">Launch Offer</span>
+        <span>Use code <strong class="underline decoration-wavy underline-offset-2">SPEAK10</strong> for 10% off + Free Express Shipping worldwide!</span>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-white/10 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-cyan flex items-center justify-center shadow-lg shadow-brand-500/30 group-hover:scale-105 transition-transform">
+                    <i data-lucide="disc-3" class="w-6 h-6 text-white animate-spin-slow"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-mono text-xl font-bold tracking-wider text-white">Mr. Speak</span>
+                    <span class="text-[10px] text-brand-cyan tracking-widest font-semibold uppercase">360 Edition</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+                <a href="#hero" class="hover:text-brand-cyan transition-colors">Overview</a>
+                <a href="#experience" class="hover:text-brand-cyan transition-colors">Acoustics</a>
+                <a href="#features" class="hover:text-brand-cyan transition-colors">360° Tech</a>
+                <a href="#specs" class="hover:text-brand-cyan transition-colors">Specs</a>
+                <a href="#reviews" class="hover:text-brand-cyan transition-colors">Reviews</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-4">
+                <!-- Cart Icon Button -->
+                <button id="open-cart-btn" class="relative p-2.5 rounded-full bg-slate-800/80 hover:bg-slate-700 text-gray-200 transition-all hover:scale-105 border border-white/10" aria-label="Shopping Cart">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-brand-cyan text-slate-950 font-bold text-xs w-5 h-5 rounded-full flex items-center justify-center border-2 border-slate-950 shadow-md">0</span>
+                </button>
+
+                <!-- CTA Button -->
+                <a href="#hero" onclick="quickAddToCart()" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand-600 to-brand-cyan text-white text-sm font-semibold shadow-lg shadow-brand-600/30 hover:shadow-brand-cyan/50 hover:opacity-95 transition-all hover:-translate-y-0.5">
+                    <span>Buy Now</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-300 hover:text-white focus:outline-none">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-b border-white/10 px-4 pt-2 pb-6 space-y-3">
+            <a href="#hero" class="block py-2 text-gray-200 hover:text-brand-cyan font-medium">Overview</a>
+            <a href="#experience" class="block py-2 text-gray-200 hover:text-brand-cyan font-medium">Acoustics & Equalizer</a>
+            <a href="#features" class="block py-2 text-gray-200 hover:text-brand-cyan font-medium">360° Tech</a>
+            <a href="#specs" class="block py-2 text-gray-200 hover:text-brand-cyan font-medium">Specifications</a>
+            <a href="#reviews" class="block py-2 text-gray-200 hover:text-brand-cyan font-medium">Reviews</a>
+            <button onclick="quickAddToCart()" class="w-full mt-2 py-3 rounded-xl bg-gradient-to-r from-brand-600 to-brand-cyan text-white font-semibold text-center">Buy Now - $180.99</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="relative min-h-[calc(100vh-5rem)] flex items-center justify-center py-12 lg:py-20 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Hero Content Left -->
+                    <div class="lg:col-span-6 space-y-8 text-center lg:text-left z-10">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-brand-500/30 text-brand-cyan text-xs font-semibold tracking-wider uppercase">
+                            <span class="w-2 h-2 rounded-full bg-brand-cyan animate-ping"></span>
+                            Next-Generation Acoustic Engineering
+                        </div>
+
+                        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1]">
+                            Sound You Can <br>
+                            <span class="bg-gradient-to-r from-brand-cyan via-brand-500 to-brand-magenta bg-clip-text text-transparent glow-text">See & Feel.</span>
+                        </h1>
+
+                        <p class="text-lg sm:text-xl text-gray-300 font-light max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                            Experience 360° spatial acoustics powered by custom neodymium drivers, dynamic pulse light rings, and lossless Bluetooth 5.3 streaming.
+                        </p>
+
+                        <!-- Color Selector Swatches -->
+                        <div class="space-y-3 pt-2">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400">
+                                Select Finish: <span id="current-color-name" class="text-white font-bold">Matte Obsidian</span>
+                            </label>
+                            <div class="flex items-center justify-center lg:justify-start gap-4">
+                                <button onclick="selectColor('obsidian')" id="swatch-obsidian" class="color-swatch ring-2 ring-brand-cyan w-10 h-10 rounded-full bg-slate-900 border-2 border-slate-700 transition-all hover:scale-110 shadow-lg" title="Matte Obsidian"></button>
+                                <button onclick="selectColor('arctic')" id="swatch-arctic" class="color-swatch w-10 h-10 rounded-full bg-slate-100 border-2 border-slate-300 transition-all hover:scale-110 shadow-lg" title="Arctic White"></button>
+                                <button onclick="selectColor('midnight')" id="swatch-midnight" class="color-swatch w-10 h-10 rounded-full bg-blue-900 border-2 border-blue-500 transition-all hover:scale-110 shadow-lg" title="Midnight Cobalt"></button>
+                                <button onclick="selectColor('sunset')" id="swatch-sunset" class="color-swatch w-10 h-10 rounded-full bg-amber-600 border-2 border-amber-400 transition-all hover:scale-110 shadow-lg" title="Sunset Gold"></button>
+                            </div>
+                        </div>
+
+                        <!-- Price & CTA Buttons -->
+                        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
+                            <div class="flex items-baseline gap-3">
+                                <span class="text-4xl font-extrabold text-white font-mono" id="hero-price">$100.99</span>
+                                <span class="text-lg text-gray-400 line-through font-mono">$180.99</span>
+                                <span class="text-xs bg-emerald-500/20 text-emerald-400 font-bold px-2.5 py-1 rounded-full border border-emerald-500/30">Save $80</span>
+                            </div>
+
+                            <div class="flex items-center gap-3 w-full sm:w-auto">
+                                <button onclick="addCurrentToCart()" class="flex-1 sm:flex-none px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-600 to-brand-cyan text-white font-bold text-base shadow-xl shadow-brand-600/30 hover:shadow-brand-cyan/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
+                                    <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                                    <span>Add to Cart</span>
+                                </button>
+                                <a href="#experience" class="p-4 rounded-2xl glass-card hover:bg-slate-800 text-gray-300 hover:text-white transition-all border border-white/10" title="Audio Preview">
+                                    <i data-lucide="volume-2" class="w-5 h-5"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Mini Highlights Badges -->
+                        <div class="pt-6 border-t border-white/10 grid grid-cols-3 gap-4 text-center lg:text-left">
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase tracking-wider">Playtime</p>
+                                <p class="text-lg font-bold text-white font-mono">72 Hours</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase tracking-wider">Rating</p>
+                                <p class="text-lg font-bold text-amber-400 flex items-center justify-center lg:justify-start gap-1 font-mono">
+                                    4.9 <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase tracking-wider">Protection</p>
+                                <p class="text-lg font-bold text-white font-mono">IP67 Waterproof</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hero Visual Canvas / Dynamic Speaker Display -->
+                    <div class="lg:col-span-6 relative flex items-center justify-center">
+                        <div class="relative w-full max-w-md aspect-square flex items-center justify-center">
+                            <!-- Speaker Canvas Renderer -->
+                            <canvas id="speaker-canvas" width="500" height="500" class="w-full h-full relative z-10 cursor-grab active:cursor-grabbing drop-shadow-[0_20px_50px_rgba(99,102,241,0.3)]"></canvas>
+
+                            <!-- Ambient Aura Glow Behind Speaker -->
+                            <div id="speaker-glow" class="absolute inset-10 rounded-full bg-brand-cyan/20 filter blur-3xl transition-all duration-700 pointer-events-none"></div>
+
+                            <!-- Interactive Rotating Helper Badge -->
+                            <div class="absolute bottom-2 left-1/2 -translate-x-1/2 glass-card px-4 py-2 rounded-full text-xs font-semibold text-gray-300 flex items-center gap-2 border border-white/10 pointer-events-none z-20">
+                                <i data-lucide="rotate-3d" class="w-4 h-4 text-brand-cyan animate-spin-slow"></i>
+                                <span>Dynamic 3D Color Engine Live</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE AUDIO EXPERIENCE & VISUALIZER -->
+        <section id="experience" class="py-20 relative bg-slate-950/80 border-y border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+                    <h2 class="text-xs uppercase font-bold tracking-widest text-brand-cyan">Interactive Sound Lab</h2>
+                    <h3 class="text-3xl sm:text-5xl font-extrabold text-white">Experience 360° Spatial Spectrum</h3>
+                    <p class="text-gray-400 text-base">Select a genre demo track below to ignite the pulse visualizer canvas and test how Mr. Speak 360 processes bass frequencies, acoustic fidelity, and spatial audio expansion.</p>
+                </div>
+
+                <!-- Equalizer & Audio Control Station -->
+                <div class="glass-panel rounded-3xl p-6 lg:p-10 border border-white/10 shadow-2xl relative overflow-hidden">
+                    
+                    <!-- Track Selector & Player Controls -->
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6 mb-8 border-b border-white/10 pb-6">
+                        
+                        <!-- Track Buttons -->
+                        <div class="flex flex-wrap items-center justify-center gap-3">
+                            <button onclick="playAudioTrack('bass')" id="track-btn-bass" class="track-btn active px-4 py-2.5 rounded-xl text-xs font-bold transition-all bg-brand-600 text-white shadow-lg flex items-center gap-2">
+                                <i data-lucide="disc" class="w-4 h-4"></i> Deep Bass Sub-Test
+                            </button>
+                            <button onclick="playAudioTrack('acoustic')" id="track-btn-acoustic" class="track-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all glass-card hover:bg-slate-800 text-gray-300 flex items-center gap-2">
+                                <i data-lucide="music" class="w-4 h-4"></i> Acoustic Vocal Lounge
+                            </button>
+                            <button onclick="playAudioTrack('spatial')" id="track-btn-spatial" class="track-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all glass-card hover:bg-slate-800 text-gray-300 flex items-center gap-2">
+                                <i data-lucide="sparkles" class="w-4 h-4"></i> Spatial Synth Wave
+                            </button>
+                        </div>
+
+                        <!-- Audio Playback Toggle Button -->
+                        <div class="flex items-center gap-4">
+                            <button id="audio-toggle-btn" onclick="toggleAudioPlayback()" class="px-6 py-3 rounded-2xl bg-gradient-to-r from-brand-cyan to-brand-500 text-slate-950 font-bold text-sm flex items-center gap-3 shadow-lg shadow-brand-cyan/20 hover:scale-105 transition-all">
+                                <i data-lucide="play" id="audio-toggle-icon" class="w-5 h-5 fill-slate-950"></i>
+                                <span id="audio-toggle-text">Play Visualizer Demo</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Canvas Audio Visualizer Spectrum -->
+                    <div class="relative w-full h-64 bg-slate-900/90 rounded-2xl overflow-hidden border border-white/10 flex items-center justify-center">
+                        <canvas id="visualizer-canvas" class="w-full h-full block"></canvas>
+
+                        <!-- Overlay Info HUD -->
+                        <div class="absolute top-4 left-4 flex items-center gap-3 glass-card px-3 py-1.5 rounded-lg border border-white/10 text-xs">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span class="text-gray-300 font-mono" id="hud-status">Status: Ready</span>
+                        </div>
+
+                        <div class="absolute top-4 right-4 text-xs font-mono text-gray-400 glass-card px-3 py-1.5 rounded-lg">
+                            Bitrate: 24-bit / 96kHz Lossless
+                        </div>
+                    </div>
+
+                    <!-- Equalizer Sliders Simulation -->
+                    <div class="grid grid-cols-3 sm:grid-cols-6 gap-4 mt-8 pt-6 border-t border-white/10 text-center">
+                        <div>
+                            <label class="block text-[10px] font-mono text-gray-400 uppercase mb-2">60Hz (Bass)</label>
+                            <input type="range" id="eq-bass" min="0" max="100" value="85" oninput="updateEq()" class="w-full accent-brand-cyan cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono text-gray-400 uppercase mb-2">250Hz (Sub)</label>
+                            <input type="range" id="eq-sub" min="0" max="100" value="70" oninput="updateEq()" class="w-full accent-brand-cyan cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono text-gray-400 uppercase mb-2">1kHz (Mid)</label>
+                            <input type="range" id="eq-mid" min="0" max="100" value="60" oninput="updateEq()" class="w-full accent-brand-500 cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono text-gray-400 uppercase mb-2">4kHz (Vocal)</label>
+                            <input type="range" id="eq-vocal" min="0" max="100" value="75" oninput="updateEq()" class="w-full accent-brand-500 cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono text-gray-400 uppercase mb-2">12kHz (Treble)</label>
+                            <input type="range" id="eq-treble" min="0" max="100" value="80" oninput="updateEq()" class="w-full accent-brand-magenta cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-mono text-gray-400 uppercase mb-2">360° Air</label>
+                            <input type="range" id="eq-air" min="0" max="100" value="90" oninput="updateEq()" class="w-full accent-brand-magenta cursor-pointer">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- INTERACTIVE HOTSPOTS & FEATURE GRID -->
+        <section id="features" class="py-24 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                    <h2 class="text-xs uppercase font-bold tracking-widest text-brand-cyan">Engineered Perfection</h2>
+                    <h3 class="text-3xl sm:text-5xl font-extrabold text-white">Interactive Feature Breakdown</h3>
+                    <p class="text-gray-400">Click or tap any interactive hotspot pin on the chassis to explore acoustic architecture details.</p>
+                </div>
+
+                <!-- Interactive Hotspot Display Card -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
+                    
+                    <!-- Left: Hotspot Visual Container -->
+                    <div class="lg:col-span-7 relative flex items-center justify-center glass-panel rounded-3xl p-8 border border-white/10 min-h-[420px]">
+                        
+                        <!-- Speaker Silhouette Sketch Graphic with Pins -->
+                        <div class="relative w-72 h-96 bg-gradient-to-b from-slate-800 to-slate-900 rounded-3xl border-2 border-brand-500/30 flex flex-col items-center justify-between p-6 shadow-2xl">
+                            <!-- Top Cap -->
+                            <div class="w-full h-8 rounded-xl bg-slate-700/80 border border-white/10 flex items-center justify-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-brand-cyan"></span>
+                                <span class="w-2 h-2 rounded-full bg-brand-500"></span>
+                            </div>
+
+                            <!-- Mesh Body -->
+                            <div class="w-full flex-1 my-4 bg-slate-900/80 rounded-2xl border border-slate-700/50 flex flex-col items-center justify-center relative overflow-hidden">
+                                <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#6366f1_1px,transparent_1px)] [background-size:8px_8px]"></div>
+                                <i data-lucide="radio-receiver" class="w-20 h-20 text-brand-cyan/40"></i>
+                            </div>
+
+                            <!-- Subwoofer Ring Base -->
+                            <div class="w-full h-12 rounded-xl bg-slate-800 border border-brand-cyan/40 flex items-center justify-center">
+                                <div class="w-3/4 h-2 bg-brand-cyan rounded-full animate-pulse"></div>
+                            </div>
+
+                            <!-- HOTSPOT 1: Spatial Tweeters -->
+                            <button onclick="setActiveHotspot(1)" class="absolute top-12 left-6 group focus:outline-none" aria-label="Hotspot 1">
+                                <span class="relative flex h-8 w-8 items-center justify-center">
+                                    <span class="animate-ping-slow absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-7 w-7 bg-brand-cyan text-slate-950 font-extrabold text-xs items-center justify-center shadow-lg group-hover:scale-110 transition-transform">1</span>
+                                </span>
+                            </button>
+
+                            <!-- HOTSPOT 2: Subwoofer Bass Radiator -->
+                            <button onclick="setActiveHotspot(2)" class="absolute bottom-16 right-6 group focus:outline-none" aria-label="Hotspot 2">
+                                <span class="relative flex h-8 w-8 items-center justify-center">
+                                    <span class="animate-ping-slow absolute inline-flex h-full w-full rounded-full bg-brand-magenta opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-7 w-7 bg-brand-magenta text-white font-extrabold text-xs items-center justify-center shadow-lg group-hover:scale-110 transition-transform">2</span>
+                                </span>
+                            </button>
+
+                            <!-- HOTSPOT 3: Smart Voice & Multi-Room Chip -->
+                            <button onclick="setActiveHotspot(3)" class="absolute top-1/2 right-4 -translate-y-1/2 group focus:outline-none" aria-label="Hotspot 3">
+                                <span class="relative flex h-8 w-8 items-center justify-center">
+                                    <span class="animate-ping-slow absolute inline-flex h-full w-full rounded-full bg-brand-amber opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-7 w-7 bg-brand-amber text-slate-950 font-extrabold text-xs items-center justify-center shadow-lg group-hover:scale-110 transition-transform">3</span>
+                                </span>
+                            </button>
+
+                            <!-- HOTSPOT 4: IP67 Weather Armor -->
+                            <button onclick="setActiveHotspot(4)" class="absolute bottom-6 left-8 group focus:outline-none" aria-label="Hotspot 4">
+                                <span class="relative flex h-8 w-8 items-center justify-center">
+                                    <span class="animate-ping-slow absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-7 w-7 bg-emerald-400 text-slate-950 font-extrabold text-xs items-center justify-center shadow-lg group-hover:scale-110 transition-transform">4</span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Dynamic Hotspot Info Details Panel -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div id="hotspot-display-card" class="glass-panel rounded-3xl p-8 border border-white/10 transition-all duration-300">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+
+                        <!-- Selector Tab Indicators -->
+                        <div class="grid grid-cols-4 gap-2">
+                            <button onclick="setActiveHotspot(1)" id="tab-spot-1" class="py-2.5 rounded-xl border text-xs font-bold transition-all text-center">Spot 01</button>
+                            <button onclick="setActiveHotspot(2)" id="tab-spot-2" class="py-2.5 rounded-xl border text-xs font-bold transition-all text-center">Spot 02</button>
+                            <button onclick="setActiveHotspot(3)" id="tab-spot-3" class="py-2.5 rounded-xl border text-xs font-bold transition-all text-center">Spot 03</button>
+                            <button onclick="setActiveHotspot(4)" id="tab-spot-4" class="py-2.5 rounded-xl border text-xs font-bold transition-all text-center">Spot 04</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 4 Key Grid Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <div class="glass-card rounded-2xl p-6 border border-white/5 hover:border-brand-cyan/40 transition-all hover:-translate-y-1 group">
+                        <div class="w-12 h-12 rounded-xl bg-brand-cyan/10 text-brand-cyan flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i data-lucide="wifi" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">Wi-Fi 6 & Bluetooth 5.3</h4>
+                        <p class="text-sm text-gray-400">Stream lossless hi-res audio without interruptions or lag across up to 100ft range.</p>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 border border-white/5 hover:border-brand-500/40 transition-all hover:-translate-y-1 group">
+                        <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i data-lucide="battery-charging" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">72-Hour Battery Life</h4>
+                        <p class="text-sm text-gray-400">All-day non-stop playback with USB-C fast charge providing 6 hours off a 15-min boost.</p>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 border border-white/5 hover:border-brand-magenta/40 transition-all hover:-translate-y-1 group">
+                        <div class="w-12 h-12 rounded-xl bg-brand-magenta/10 text-brand-magenta flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i data-lucide="droplet" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">IP67 Water Protection</h4>
+                        <p class="text-sm text-gray-400">Dustproof and fully submersible in up to 1 meter of water for 30 minutes. Built for pool parties.</p>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 border border-white/5 hover:border-brand-amber/40 transition-all hover:-translate-y-1 group">
+                        <div class="w-12 h-12 rounded-xl bg-brand-amber/10 text-brand-amber flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                            <i data-lucide="layers" class="w-6 h-6"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-white mb-2">Stereo Pair & Multi-Room</h4>
+                        <p class="text-sm text-gray-400">Wirelessly link 100+ Mr. Speak 360 units together for synchronized stadium-level audio.</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TECH SPECS SHEET -->
+        <section id="specs" class="py-20 bg-slate-950/80 border-t border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+                    <h2 class="text-xs uppercase font-bold tracking-widest text-brand-cyan">Technical Specifications</h2>
+                    <h3 class="text-3xl sm:text-4xl font-extrabold text-white">Full Hardware Architecture</h3>
+                </div>
+
+                <!-- Spec Category Tabs -->
+                <div class="flex items-center justify-center gap-2 sm:gap-4 mb-10 overflow-x-auto pb-2">
+                    <button onclick="showSpecTab('audio')" id="spec-tab-audio" class="spec-tab-btn active px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all bg-brand-600 text-white">Audio & Acoustics</button>
+                    <button onclick="showSpecTab('battery')" id="spec-tab-battery" class="spec-tab-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all glass-card hover:bg-slate-800 text-gray-300">Battery & Power</button>
+                    <button onclick="showSpecTab('connectivity')" id="spec-tab-connectivity" class="spec-tab-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all glass-card hover:bg-slate-800 text-gray-300">Connectivity</button>
+                    <button onclick="showSpecTab('dimensions')" id="spec-tab-dimensions" class="spec-tab-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all glass-card hover:bg-slate-800 text-gray-300">Dimensions & Build</button>
+                </div>
+
+                <!-- Spec Content Panel -->
+                <div class="max-w-4xl mx-auto glass-panel rounded-3xl p-6 sm:p-8 border border-white/10 shadow-xl">
+                    
+                    <!-- Audio Spec Group -->
+                    <div id="spec-group-audio" class="spec-group space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Transducers & Drivers</span>
+                                <span class="text-base font-semibold text-white">2 x 45mm Tweeters + 1 x 90mm Subwoofer + 2 x Passive Radiators</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Frequency Response</span>
+                                <span class="text-base font-semibold text-white">35Hz – 24,000Hz (-3dB)</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Amplifier Power</span>
+                                <span class="text-base font-semibold text-white">80W RMS Peak Class-D Amp</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Max Sound Pressure Level</span>
+                                <span class="text-base font-semibold text-white">98 dB SPL @ 1m</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Battery Spec Group -->
+                    <div id="spec-group-battery" class="spec-group hidden space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Playtime</span>
+                                <span class="text-base font-semibold text-white">Up to 72 hours (varies by volume and light effects)</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Charging Port</span>
+                                <span class="text-base font-semibold text-white">USB Type-C Power Delivery 3.0</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Full Charge Time</span>
+                                <span class="text-base font-semibold text-white">2.5 Hours (15-min charge gives 6 hours)</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Power Bank Output</span>
+                                <span class="text-base font-semibold text-white">5V / 2.1A (Charges smartphones on the go)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Connectivity Spec Group -->
+                    <div id="spec-group-connectivity" class="spec-group hidden space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Wireless Standard</span>
+                                <span class="text-base font-semibold text-white">Bluetooth 5.3 LE + Wi-Fi 6 (802.11ax)</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Audio Codecs</span>
+                                <span class="text-base font-semibold text-white">LDAC, AAC, SBC, Qualcomm aptX HD</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Multi-Sync</span>
+                                <span class="text-base font-semibold text-white">Mr. Speak 360 Party Link (Sync up to 100+ speakers)</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Voice Assistant</span>
+                                <span class="text-base font-semibold text-white">Integrated Siri & Google Assistant Array</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dimensions Spec Group -->
+                    <div id="spec-group-dimensions" class="spec-group hidden space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Dimensions (H x W x D)</span>
+                                <span class="text-base font-semibold text-white">225 mm x 110 mm x 110 mm</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Weight</span>
+                                <span class="text-base font-semibold text-white">1.35 kg / 2.97 lbs</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Water Resistance</span>
+                                <span class="text-base font-semibold text-white">IP67 Certified Dust and Water Immersion</span>
+                            </div>
+                            <div class="border-b border-white/10 pb-3">
+                                <span class="text-xs font-mono text-gray-400 block uppercase">Housing Materials</span>
+                                <span class="text-base font-semibold text-white">Anodized Recycled Aluminum + Premium Acoustic Mesh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CUSTOMER REVIEWS & RATINGS -->
+        <section id="reviews" class="py-24 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                    <div>
+                        <h2 class="text-xs uppercase font-bold tracking-widest text-brand-cyan mb-2">Verified Feedback</h2>
+                        <h3 class="text-3xl sm:text-5xl font-extrabold text-white">Loved by Audiophiles</h3>
+                    </div>
+
+                    <button onclick="openReviewModal()" class="px-6 py-3 rounded-2xl glass-panel hover:bg-slate-800 text-white font-bold text-sm border border-brand-500/30 flex items-center gap-2 self-start md:self-auto transition-all">
+                        <i data-lucide="edit-3" class="w-4 h-4 text-brand-cyan"></i>
+                        <span>Write a Review</span>
+                    </button>
+                </div>
+
+                <!-- Rating Score Summary Header -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 items-center glass-panel rounded-3xl p-6 sm:p-8 border border-white/10">
+                    <div class="lg:col-span-4 text-center lg:border-r border-white/10 lg:pr-8">
+                        <span class="text-6xl font-extrabold text-white font-mono">4.9</span>
+                        <div class="flex justify-center gap-1 my-2 text-amber-400">
+                            <i data-lucide="star" class="w-5 h-5 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-5 h-5 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-5 h-5 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-5 h-5 fill-amber-400"></i>
+                            <i data-lucide="star" class="w-5 h-5 fill-amber-400"></i>
+                        </div>
+                        <p class="text-xs text-gray-400">Based on 1,420 customer reviews</p>
+                    </div>
+
+                    <!-- Filter Options -->
+                    <div class="lg:col-span-8 flex flex-wrap items-center gap-3">
+                        <span class="text-xs font-semibold text-gray-400 uppercase mr-2">Filter Reviews:</span>
+                        <button onclick="filterReviews('all')" id="filter-all" class="review-filter-btn active px-4 py-2 rounded-xl text-xs font-bold bg-brand-600 text-white transition-all">All Reviews (4)</button>
+                        <button onclick="filterReviews(5)" id="filter-5" class="review-filter-btn px-4 py-2 rounded-xl text-xs font-bold glass-card text-gray-300 hover:text-white transition-all">5 Stars</button>
+                        <button onclick="filterReviews(4)" id="filter-4" class="review-filter-btn px-4 py-2 rounded-xl text-xs font-bold glass-card text-gray-300 hover:text-white transition-all">4 Stars</button>
+                    </div>
+                </div>
+
+                <!-- Reviews Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="reviews-container">
+                    <!-- Cards dynamically populated via JS -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CTA BANNER -->
+        <section class="py-16 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="glass-panel rounded-3xl p-10 sm:p-16 border border-brand-500/30 relative overflow-hidden text-center space-y-6">
+                    <div class="absolute -right-20 -top-20 w-80 h-80 bg-brand-cyan/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-brand-magenta/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white">Elevate Your Audio Space Today</h2>
+                    <p class="text-gray-300 max-w-2xl mx-auto text-base">Free global 2-day express shipping, 30-day money-back guarantee, and 2-year warranty included with every Mr. Speak 360.</p>
+                    
+                    <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <button onclick="addCurrentToCart()" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-600 to-brand-cyan text-white font-bold text-base shadow-xl shadow-brand-cyan/30 hover:scale-105 transition-all">
+                            Order Now - $100.99
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/10 bg-slate-950 py-12 text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white">
+                            <i data-lucide="disc-3" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-mono text-lg font-bold text-white">MR. SPEAK 360</span>
+                    </div>
+                    <p class="text-xs text-gray-500 leading-relaxed">Pioneering acoustic engineering and spatial light interactions for audio purists worldwide.</p>
+                </div>
+
+                <div>
+                    <h5 class="text-white font-semibold mb-4 text-xs uppercase tracking-wider">Product</h5>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#hero" class="hover:text-brand-cyan transition-colors">Mr. Speak 360 Speaker</a></li>
+                        <li><a href="#features" class="hover:text-brand-cyan transition-colors">Acoustic Specs</a></li>
+                        <li><a href="#experience" class="hover:text-brand-cyan transition-colors">Equalizer Lab</a></li>
+                        <li><a href="#" class="hover:text-brand-cyan transition-colors">Accessories & Stands</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-white font-semibold mb-4 text-xs uppercase tracking-wider">Support & Warranty</h5>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-brand-cyan transition-colors">User Manual & Firmware</a></li>
+                        <li><a href="#" class="hover:text-brand-cyan transition-colors">Warranty Registration</a></li>
+                        <li><a href="#" class="hover:text-brand-cyan transition-colors">30-Day Guarantee</a></li>
+                        <li><a href="#" class="hover:text-brand-cyan transition-colors">Contact Support</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="text-white font-semibold mb-4 text-xs uppercase tracking-wider">Stay Connected</h5>
+                    <p class="text-xs text-gray-500 mb-3">Subscribe for firmware updates and exclusive color drops.</p>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="Enter your email" class="bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan w-full">
+                        <button onclick="subscribeNewsletter()" class="px-4 py-2 bg-brand-600 text-white rounded-xl font-bold text-xs hover:bg-brand-500 transition-colors">Join</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-600 gap-4">
+                <p>© 2026 Mr. Speak 360 Acoustic Labs Inc. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-gray-400">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-400">Terms of Service</a>
+                    <a href="#" class="hover:text-gray-400">Compliance</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OUT CART DRAWER -->
+    <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden transition-opacity" onclick="closeCart()"></div>
+    <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-slate-950 border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+        
+        <!-- Cart Header -->
+        <div class="p-6 border-b border-white/10 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <i data-lucide="shopping-bag" class="w-6 h-6 text-brand-cyan"></i>
+                <h3 class="text-xl font-bold text-white">Your Cart</h3>
+            </div>
+            <button onclick="closeCart()" class="p-2 rounded-lg hover:bg-slate-800 text-gray-400 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+            <!-- Dynamically Rendered Cart Items -->
+        </div>
+
+        <!-- Cart Footer / Totals & Promo -->
+        <div class="p-6 border-t border-white/10 bg-slate-900/60 space-y-4">
+            
+            <!-- Promo Code Input -->
+            <div class="flex gap-2">
+                <input type="text" id="promo-input" placeholder="Promo code (e.g. SPEAK10)" class="uppercase bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-cyan flex-1">
+                <button onclick="applyPromoCode()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl border border-white/10 transition-colors">Apply</button>
+            </div>
+            <div id="promo-message" class="text-xs font-semibold hidden"></div>
+
+            <!-- Price Breakdown -->
+            <div class="space-y-2 text-sm pt-2">
+                <div class="flex justify-between text-gray-400">
+                    <span>Subtotal</span>
+                    <span class="font-mono text-white" id="cart-subtotal">$0.00</span>
+                </div>
+                <div class="flex justify-between text-gray-400" id="discount-row" style="display:none;">
+                    <span class="text-emerald-400">Discount</span>
+                    <span class="font-mono text-emerald-400" id="cart-discount">-$0.00</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                    <span>Estimated Tax (8%)</span>
+                    <span class="font-mono text-white" id="cart-tax">$0.00</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                    <span>Express Shipping</span>
+                    <span class="text-emerald-400 font-semibold">FREE</span>
+                </div>
+                <div class="flex justify-between text-lg font-bold text-white border-t border-white/10 pt-3">
+                    <span>Total</span>
+                    <span class="font-mono text-brand-cyan" id="cart-total">$0.00</span>
+                </div>
+            </div>
+
+            <button onclick="openCheckoutModal()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-brand-600 to-brand-cyan text-white font-bold text-base shadow-xl shadow-brand-600/30 hover:opacity-95 transition-all flex items-center justify-center gap-2">
+                <span>Proceed to Checkout</span>
+                <i data-lucide="lock" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- CHECKOUT MODAL -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="glass-panel w-full max-w-2xl rounded-3xl border border-white/10 p-6 sm:p-8 max-h-[90vh] overflow-y-auto custom-scrollbar relative">
+            <button onclick="closeCheckoutModal()" class="absolute top-6 right-6 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-slate-800">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <div class="mb-6">
+                <h3 class="text-2xl font-bold text-white mb-1">Complete Your Order</h3>
+                <p class="text-xs text-gray-400">Secure 256-bit SSL encrypted checkout</p>
+            </div>
+
+            <!-- Checkout Form -->
+            <form id="checkout-form" onsubmit="handleCheckoutSubmit(event)" class="space-y-6">
+                <!-- Shipping Info -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold text-brand-cyan uppercase tracking-wider">Shipping Details</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-300 mb-1">First Name</label>
+                            <input type="text" required class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-300 mb-1">Last Name</label>
+                            <input type="text" required class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-300 mb-1">Shipping Address</label>
+                        <input type="text" required placeholder="123 Sonic Boulevard, Suite 400" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan">
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold text-brand-cyan uppercase tracking-wider">Payment Gateway</h4>
+                    <div class="grid grid-cols-3 gap-3">
+                        <label class="glass-card p-3 rounded-xl border border-white/10 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-brand-cyan">
+                            <input type="radio" name="payment" value="card" checked class="accent-brand-cyan">
+                            <i data-lucide="credit-card" class="w-5 h-5 text-gray-300"></i>
+                            <span class="text-[10px] font-bold text-white">Credit Card</span>
+                        </label>
+                        <label class="glass-card p-3 rounded-xl border border-white/10 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-brand-cyan">
+                            <input type="radio" name="payment" value="apple" class="accent-brand-cyan">
+                            <i data-lucide="smartphone" class="w-5 h-5 text-gray-300"></i>
+                            <span class="text-[10px] font-bold text-white">Apple Pay</span>
+                        </label>
+                        <label class="glass-card p-3 rounded-xl border border-white/10 flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-brand-cyan">
+                            <input type="radio" name="payment" value="google" class="accent-brand-cyan">
+                            <i data-lucide="wallet" class="w-5 h-5 text-gray-300"></i>
+                            <span class="text-[10px] font-bold text-white">Google Pay</span>
+                        </label>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-300 mb-1">Card Number</label>
+                            <input type="text" placeholder="4532 •••• •••• 8892" required class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-gray-300 mb-1">Expiry</label>
+                                <input type="text" placeholder="MM/YY" required class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-gray-300 mb-1">CVC</label>
+                                <input type="text" placeholder="352" required class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" id="checkout-submit-btn" class="w-full py-4 rounded-2xl bg-gradient-to-r from-brand-600 via-brand-cyan to-brand-magenta text-white font-bold text-base shadow-xl shadow-brand-cyan/30 hover:opacity-95 transition-all">
+                    Pay Now - <span id="checkout-modal-total">$299.99</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- WRITE REVIEW MODAL -->
+    <div id="review-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="glass-panel w-full max-w-lg rounded-3xl border border-white/10 p-6 sm:p-8 relative">
+            <button onclick="closeReviewModal()" class="absolute top-6 right-6 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-slate-800">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <h3 class="text-2xl font-bold text-white mb-4">Share Your Mr. Speak 360 Experience</h3>
+
+            <form onsubmit="handleReviewSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">Your Name</label>
+                    <input type="text" id="review-author" required placeholder="Alex Rivera" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">Rating</label>
+                    <select id="review-rating" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan">
+                        <option value="5">5 Stars - Mind Blowing Audio</option>
+                        <option value="4">4 Stars - Excellent Quality</option>
+                        <option value="3">3 Stars - Average</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-gray-300 mb-1">Review Comments</label>
+                    <textarea id="review-text" rows="4" required placeholder="Tell us how the bass and spatial sound perform..." class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-cyan"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-3 rounded-2xl bg-gradient-to-r from-brand-600 to-brand-cyan text-white font-bold text-sm shadow-lg hover:opacity-95 transition-all">
+                    Submit Review
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION TOAST -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden glass-panel border border-brand-cyan/50 text-white px-6 py-3 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300">
+        <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-cyan"></i>
+        <span id="toast-message" class="text-xs font-semibold">Item added to cart!</span>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & CANVAS RENDERERS -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Application State
+        const state = {
+            currentColor: 'obsidian',
+            colors: {
+                obsidian: { name: 'Matte Obsidian', hex: '#0f172a', ring: '#06b6d4' },
+                arctic: { name: 'Arctic White', hex: '#e2e8f0', ring: '#38bdf8' },
+                midnight: { name: 'Midnight Cobalt', hex: '#1e3a8a', ring: '#6366f1' },
+                sunset: { name: 'Sunset Gold', hex: '#d97706', ring: '#f59e0b' }
+            },
+            cart: [
+                {
+                    id: 'aura-obsidian',
+                    name: 'Mr. Speak 360',
+                    finish: 'Matte Obsidian',
+                    price: 100.99,
+                    qty: 1,
+                    hex: '#0f172a'
+                }
+            ],
+            discountPercent: 0,
+            activeTrack: 'bass',
+            isPlayingAudio: false,
+            hotspots: {
+                1: {
+                    title: "360° Spatial Audio Tweeters",
+                    desc: "Dual high-frequency angled silk tweeters deliver wide crystal-clear treble up to 24kHz with spatial diffusion.",
+                    tag: "Acoustic Hardware",
+                    color: "text-brand-cyan"
+                },
+                2: {
+                    title: "Subwoofer Bass Radiator",
+                    desc: "Bottom-firing long-throw neodymium woofer paired with dual passive radiators for deep punchy sub-bass down to 35Hz.",
+                    tag: "Low-Frequency Engine",
+                    color: "text-brand-magenta"
+                },
+                3: {
+                    title: "AuraSync Multi-Room Processor",
+                    desc: "Integrated wireless processor syncs ultra-low latency audio across up to 100+ Aura speakers via Bluetooth 5.3 & Wi-Fi 6.",
+                    tag: "Wireless Architecture",
+                    color: "text-brand-amber"
+                },
+                4: {
+                    title: "IP67 Waterproof Submersible",
+                    desc: "Hermetically sealed chassis ensures dust protection and full water immersion up to 1 meter depth for 30 minutes.",
+                    tag: "Durability Shield",
+                    color: "text-emerald-400"
+                }
+            },
+            reviews: [
+                {
+                    id: 1,
+                    author: "Marcus Vance",
+                    rating: 5,
+                    date: "2 days ago",
+                    verified: true,
+                    text: "The soundstage on the Mr. Speak 360 is unbelievable for a portable speaker. The sub-bass response physically vibrates the desk without obscuring vocal clarity!"
+                },
+                {
+                    id: 2,
+                    author: "Elena Rostova",
+                    rating: 5,
+                    date: "1 week ago",
+                    verified: true,
+                    text: "Took this to a poolside gathering. It survived an accidental splash effortlessly and filled the entire open backyard with crisp sound. Worth every penny."
+                },
+                {
+                    id: 3,
+                    author: "David Chen",
+                    rating: 4,
+                    date: "2 weeks ago",
+                    verified: true,
+                    text: "Battery life is spot on at 72 hours. The dynamic light visualizer ring syncs nicely to beats when playing electronic tracks."
+                },
+                {
+                    id: 4,
+                    author: "Sarah Jenkins",
+                    rating: 5,
+                    date: "3 weeks ago",
+                    verified: true,
+                    text: "Replaced my living room soundbar with two Mr. Speak 360 units paired in stereo mode. Stunning modern aesthetics and room-shaking audio."
+                }
+            ]
+        };
+
+        // --- SPEAKER 3D CANVAS ENGINE ---
+        const speakerCanvas = document.getElementById('speaker-canvas');
+        const sCtx = speakerCanvas.getContext('2d');
+        let rotationAngle = 0;
+
+        function drawSpeaker() {
+            sCtx.clearRect(0, 0, speakerCanvas.width, speakerCanvas.height);
+
+            const centerX = speakerCanvas.width / 2;
+            const centerY = speakerCanvas.height / 2;
+            const activeColor = state.colors[state.currentColor].hex;
+            const ringColor = state.colors[state.currentColor].ring;
+
+            sCtx.save();
+            sCtx.translate(centerX, centerY);
+
+            // Subtle rotation animation offset
+            rotationAngle += 0.005;
+
+            // Outer Light Aura Ring Effect
+            const pulseSize = Math.sin(Date.now() / 300) * 8;
+            sCtx.beginPath();
+            sCtx.arc(0, 0, 140 + pulseSize, 0, Math.PI * 2);
+            sCtx.strokeStyle = ringColor;
+            sCtx.lineWidth = 3;
+            sCtx.globalAlpha = 0.4;
+            sCtx.stroke();
+
+            // Speaker Cylinder Body Shadow
+            sCtx.shadowColor = ringColor;
+            sCtx.shadowBlur = 30;
+
+            // Speaker Outer Pillar Body
+            sCtx.fillStyle = activeColor;
+            sCtx.beginPath();
+            sCtx.roundRect(-80, -150, 160, 300, 40);
+            sCtx.fill();
+            sCtx.shadowBlur = 0;
+
+            // Metallic/Glass Grill Overlay Mesh Pattern
+            sCtx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+            for (let y = -120; y < 120; y += 12) {
+                sCtx.fillRect(-70, y, 140, 6);
+            }
+
+            // Top Control Ring Dial
+            sCtx.fillStyle = '#1e293b';
+            sCtx.beginPath();
+            sCtx.ellipse(0, -150, 80, 20, 0, 0, Math.PI * 2);
+            sCtx.fill();
+
+            sCtx.strokeStyle = ringColor;
+            sCtx.lineWidth = 4;
+            sCtx.stroke();
+
+            // Center Dynamic LED Core Logo Indicator
+            sCtx.beginPath();
+            sCtx.arc(0, 0, 35, 0, Math.PI * 2);
+            sCtx.fillStyle = 'rgba(15, 23, 42, 0.8)';
+            sCtx.fill();
+            sCtx.strokeStyle = ringColor;
+            sCtx.lineWidth = 2;
+            sCtx.stroke();
+
+            // Pulsing Audio Cone Mesh inside
+            const innerPulse = Math.abs(Math.sin(Date.now() / 200)) * 6;
+            sCtx.beginPath();
+            sCtx.arc(0, 0, 18 + innerPulse, 0, Math.PI * 2);
+            sCtx.fillStyle = ringColor;
+            sCtx.fill();
+
+            // Base Subwoofer LED Ring
+            sCtx.beginPath();
+            sCtx.ellipse(0, 150, 80, 20, 0, 0, Math.PI * 2);
+            sCtx.strokeStyle = ringColor;
+            sCtx.lineWidth = 6;
+            sCtx.stroke();
+
+            sCtx.restore();
+
+            requestAnimationFrame(drawSpeaker);
+        }
+
+        // Color Swatch Selection
+        function selectColor(colorKey) {
+            state.currentColor = colorKey;
+            document.getElementById('current-color-name').innerText = state.colors[colorKey].name;
+
+            // Swatch highlight active border
+            document.querySelectorAll('.color-swatch').forEach(btn => btn.classList.remove('ring-2', 'ring-brand-cyan'));
+            document.getElementById(`swatch-${colorKey}`).classList.add('ring-2', 'ring-brand-cyan');
+
+            // Update Ambient Background Glow
+            document.getElementById('speaker-glow').style.backgroundColor = state.colors[colorKey].ring;
+        }
+
+        // --- AUDIO VISUALIZER CANVAS ENGINE ---
+        const vizCanvas = document.getElementById('visualizer-canvas');
+        const vCtx = vizCanvas.getContext('2d');
+        let vizBars = 48;
+
+        function resizeVizCanvas() {
+            vizCanvas.width = vizCanvas.parentElement.clientWidth;
+            vizCanvas.height = vizCanvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resizeVizCanvas);
+
+        function renderVisualizer() {
+            vCtx.clearRect(0, 0, vizCanvas.width, vizCanvas.height);
+
+            const width = vizCanvas.width;
+            const height = vizCanvas.height;
+            const barWidth = (width / vizBars) - 4;
+
+            for (let i = 0; i < vizBars; i++) {
+                let barHeight;
+
+                if (state.isPlayingAudio) {
+                    // Simulated audio frequencies based on active track mode
+                    const freqSpeed = state.activeTrack === 'bass' ? 120 : state.activeTrack === 'spatial' ? 300 : 200;
+                    const noise = Math.sin((Date.now() / freqSpeed) + i * 0.3) * 0.5 + 0.5;
+                    barHeight = Math.max(10, noise * (height * 0.75));
+                } else {
+                    // Ambient idle wave height
+                    barHeight = Math.sin((Date.now() / 600) + i * 0.2) * 8 + 12;
+                }
+
+                const x = i * (barWidth + 4) + 2;
+                const y = height / 2 - barHeight / 2;
+
+                // Color Gradient for Audio Bars
+                const gradient = vCtx.createLinearGradient(0, y, 0, y + barHeight);
+                gradient.addColorStop(0, '#06b6d4');
+                gradient.addColorStop(0.5, '#6366f1');
+                gradient.addColorStop(1, '#d946ef');
+
+                vCtx.fillStyle = gradient;
+                vCtx.beginPath();
+                vCtx.roundRect(x, y, barWidth, barHeight, 4);
+                vCtx.fill();
+            }
+
+            requestAnimationFrame(renderVisualizer);
+        }
+
+        // Audio Track & Playback Controls
+        function playAudioTrack(trackKey) {
+            state.activeTrack = trackKey;
+            document.querySelectorAll('.track-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-600', 'text-white', 'shadow-lg');
+                btn.classList.add('glass-card', 'text-gray-300');
+            });
+
+            const activeBtn = document.getElementById(`track-btn-${trackKey}`);
+            activeBtn.classList.add('bg-brand-600', 'text-white', 'shadow-lg');
+            activeBtn.classList.remove('glass-card', 'text-gray-300');
+
+            if (!state.isPlayingAudio) {
+                toggleAudioPlayback();
+            } else {
+                showToast(`Switched track to ${trackKey.toUpperCase()} acoustic test`);
+            }
+        }
+
+        function toggleAudioPlayback() {
+            state.isPlayingAudio = !state.isPlayingAudio;
+            const btnText = document.getElementById('audio-toggle-text');
+            const icon = document.getElementById('audio-toggle-icon');
+            const hud = document.getElementById('hud-status');
+
+            if (state.isPlayingAudio) {
+                btnText.innerText = "Pause Sound Visualizer";
+                icon.setAttribute('data-lucide', 'pause');
+                hud.innerText = `Playing: ${state.activeTrack.toUpperCase()} Demo`;
+                hud.previousElementSibling.className = "w-2 h-2 rounded-full bg-brand-cyan animate-ping";
+            } else {
+                btnText.innerText = "Play Visualizer Demo";
+                icon.setAttribute('data-lucide', 'play');
+                hud.innerText = "Status: Paused";
+                hud.previousElementSibling.className = "w-2 h-2 rounded-full bg-gray-500";
+            }
+            lucide.createIcons();
+        }
+
+        function updateEq() {
+            if (state.isPlayingAudio) {
+                showToast("Equalizer parameters updated live!");
+            }
+        }
+
+        // --- HOTSPOT DISPLAY LOGIC ---
+        function setActiveHotspot(id) {
+            const spot = state.hotspots[id];
+            const displayCard = document.getElementById('hotspot-display-card');
+
+            // Render Card Content
+            displayCard.innerHTML = `
+                <span class="text-xs font-mono uppercase font-bold tracking-wider ${spot.color}">${spot.tag}</span>
+                <h4 class="text-2xl font-extrabold text-white my-2">${spot.title}</h4>
+                <p class="text-gray-300 text-sm leading-relaxed mb-4">${spot.desc}</p>
+                <div class="flex items-center gap-2 text-xs text-gray-400 border-t border-white/10 pt-3">
+                    <i data-lucide="info" class="w-4 h-4 text-brand-cyan"></i>
+                    <span>Optimized for 360° omnidirectional sound distribution</span>
+                </div>
+            `;
+
+            // Active Tab Styles
+            for (let i = 1; i <= 4; i++) {
+                const tab = document.getElementById(`tab-spot-${i}`);
+                if (i === id) {
+                    tab.className = "py-2.5 rounded-xl border border-brand-cyan bg-brand-cyan/20 text-brand-cyan text-xs font-bold transition-all text-center";
+                } else {
+                    tab.className = "py-2.5 rounded-xl border border-white/10 glass-card text-gray-400 hover:text-white text-xs font-bold transition-all text-center";
+                }
+            }
+            lucide.createIcons();
+        }
+
+        // --- TECH SPECS TAB SWITCHER ---
+        function showSpecTab(tabKey) {
+            document.querySelectorAll('.spec-group').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`spec-group-${tabKey}`).classList.remove('hidden');
+
+            document.querySelectorAll('.spec-tab-btn').forEach(btn => {
+                btn.className = "spec-tab-btn px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all glass-card hover:bg-slate-800 text-gray-300";
+            });
+
+            const activeBtn = document.getElementById(`spec-tab-${tabKey}`);
+            activeBtn.className = "spec-tab-btn active px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all bg-brand-600 text-white shadow-lg";
+        }
+
+        // --- REVIEWS SYSTEM & FILTERS ---
+        function renderReviews(filterRating = 'all') {
+            const container = document.getElementById('reviews-container');
+            container.innerHTML = '';
+
+            const filtered = filterRating === 'all' 
+                ? state.reviews 
+                : state.reviews.filter(r => r.rating === Number(filterRating));
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center py-10 text-gray-400">No reviews found for this rating filter.</div>`;
+                return;
+            }
+
+            filtered.forEach(rev => {
+                const stars = Array(rev.rating).fill(0).map(() => `<i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>`).join('');
+                
+                const card = document.createElement('div');
+                card.className = 'glass-card rounded-2xl p-6 border border-white/5 space-y-4 hover:border-white/20 transition-all';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-600 to-brand-cyan text-white font-bold flex items-center justify-center text-sm">
+                                ${rev.author.charAt(0)}
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-white">${rev.author}</p>
+                                <p class="text-[10px] text-emerald-400 flex items-center gap-1">
+                                    <i data-lucide="check-circle" class="w-3 h-3"></i> Verified Buyer
+                                </p>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-500 font-mono">${rev.date}</span>
+                    </div>
+
+                    <div class="flex gap-1">${stars}</div>
+                    <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">${rev.text}</p>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function filterReviews(rating) {
+            document.querySelectorAll('.review-filter-btn').forEach(btn => {
+                btn.className = "review-filter-btn px-4 py-2 rounded-xl text-xs font-bold glass-card text-gray-300 hover:text-white transition-all";
+            });
+            const activeBtn = document.getElementById(`filter-${rating}`);
+            if (activeBtn) activeBtn.className = "review-filter-btn active px-4 py-2 rounded-xl text-xs font-bold bg-brand-600 text-white transition-all";
+
+            renderReviews(rating);
+        }
+
+        function openReviewModal() {
+            document.getElementById('review-modal').classList.remove('hidden');
+        }
+
+        function closeReviewModal() {
+            document.getElementById('review-modal').classList.add('hidden');
+        }
+
+        function handleReviewSubmit(e) {
+            e.preventDefault();
+            const author = document.getElementById('review-author').value;
+            const rating = Number(document.getElementById('review-rating').value);
+            const text = document.getElementById('review-text').value;
+
+            state.reviews.unshift({
+                id: Date.now(),
+                author,
+                rating,
+                date: 'Just now',
+                verified: true,
+                text
+            });
+
+            closeReviewModal();
+            renderReviews('all');
+            showToast("Thank you! Your review has been published.");
+            e.target.reset();
+        }
+
+        // --- E-COMMERCE & CART DRAWER SYSTEM ---
+        function updateCart() {
+            const badge = document.getElementById('cart-badge');
+            const totalQty = state.cart.reduce((acc, item) => acc + item.qty, 0);
+            badge.innerText = totalQty;
+
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+
+            if (state.cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 space-y-3">
+                        <i data-lucide="shopping-bag" class="w-12 h-12 text-gray-600 mx-auto"></i>
+                        <p class="text-gray-400 text-sm">Your shopping cart is currently empty.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                calculateTotals();
+                return;
+            }
+
+            state.cart.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "glass-card p-4 rounded-2xl border border-white/10 flex items-center gap-4";
+                row.innerHTML = `
+                    <div class="w-16 h-16 rounded-xl flex items-center justify-center border border-white/10 shadow-inner" style="background-color: ${item.hex}">
+                        <i data-lucide="disc-3" class="w-8 h-8 text-brand-cyan"></i>
+                    </div>
+
+                    <div class="flex-1">
+                        <h4 class="text-sm font-bold text-white">${item.name}</h4>
+                        <p class="text-xs text-gray-400">Finish: ${item.finish}</p>
+                        <p class="text-xs font-mono font-bold text-brand-cyan mt-1">$${item.price.toFixed(2)}</p>
+                    </div>
+
+                    <div class="flex flex-col items-end gap-2">
+                        <button onclick="removeFromCart('${item.id}')" class="text-gray-500 hover:text-red-400 p-1">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+
+                        <div class="flex items-center gap-2 bg-slate-900 border border-white/10 rounded-lg px-2 py-1 text-xs">
+                            <button onclick="changeQty('${item.id}', -1)" class="hover:text-brand-cyan">-</button>
+                            <span class="font-mono font-bold text-white px-1">${item.qty}</span>
+                            <button onclick="changeQty('${item.id}', 1)" class="hover:text-brand-cyan">+</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            lucide.createIcons();
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            const subtotal = state.cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            const discount = subtotal * (state.discountPercent / 100);
+            const discountedSubtotal = subtotal - discount;
+            const tax = discountedSubtotal * 0.08;
+            const total = discountedSubtotal + tax;
+
+            document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cart-tax').innerText = `$${tax.toFixed(2)}`;
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+            document.getElementById('checkout-modal-total').innerText = `$${total.toFixed(2)}`;
+
+            if (state.discountPercent > 0) {
+                document.getElementById('discount-row').style.display = 'flex';
+                document.getElementById('cart-discount').innerText = `-$${discount.toFixed(2)}`;
+            } else {
+                document.getElementById('discount-row').style.display = 'none';
+            }
+        }
+
+        function changeQty(id, delta) {
+            const item = state.cart.find(i => i.id === id);
+            if (!item) return;
+
+            item.qty += delta;
+            if (item.qty <= 0) {
+                removeFromCart(id);
+            } else {
+                updateCart();
+            }
+        }
+
+        function removeFromCart(id) {
+            state.cart = state.cart.filter(i => i.id !== id);
+            updateCart();
+            showToast("Item removed from cart");
+        }
+
+        function addCurrentToCart() {
+            const currentColorObj = state.colors[state.currentColor];
+            const itemId = `aura-${state.currentColor}`;
+
+            const existing = state.cart.find(i => i.id === itemId);
+            if (existing) {
+                existing.qty++;
+            } else {
+                state.cart.push({
+                    id: itemId,
+                    name: 'Mr. Speak 360',
+                    finish: currentColorObj.name,
+                    price: 299.99,
+                    qty: 1,
+                    hex: currentColorObj.hex
+                });
+            }
+
+            updateCart();
+            openCart();
+            showToast(`Added ${currentColorObj.name} Mr. Speak 360!`);
+        }
+
+        function quickAddToCart() {
+            addCurrentToCart();
+        }
+
+        function applyPromoCode() {
+            const input = document.getElementById('promo-input').value.trim().toUpperCase();
+            const message = document.getElementById('promo-message');
+
+            if (input === 'SPEAK10') {
+                state.discountPercent = 10;
+                message.className = "text-xs font-semibold text-emerald-400 block";
+                message.innerText = "Code SPEAK10 applied: 10% discount!";
+                calculateTotals();
+            } else {
+                message.className = "text-xs font-semibold text-red-400 block";
+                message.innerText = "Invalid promo code.";
+            }
+        }
+
+        function openCart() {
+            document.getElementById('cart-drawer').classList.remove('translate-x-full');
+            document.getElementById('cart-drawer-backdrop').classList.remove('hidden');
+        }
+
+        function closeCart() {
+            document.getElementById('cart-drawer').classList.add('translate-x-full');
+            document.getElementById('cart-drawer-backdrop').classList.add('hidden');
+        }
+
+        function openCheckoutModal() {
+            if (state.cart.length === 0) {
+                showToast("Please add items to cart before checking out.");
+                return;
+            }
+            closeCart();
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function handleCheckoutSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('checkout-submit-btn');
+            btn.innerHTML = `<i data-lucide="loader" class="w-5 h-5 animate-spin mx-auto"></i> Processing Order...`;
+            lucide.createIcons();
+
+            setTimeout(() => {
+                alert("🎉 Order Confirmed! Thank you for purchasing Mr. Speak 360. A confirmation receipt has been sent to your email.");
+                state.cart = [];
+                updateCart();
+                closeCheckoutModal();
+                btn.innerText = "Pay Now";
+            }, 1800);
+        }
+
+        // --- UTILITIES ---
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        function subscribeNewsletter() {
+            showToast("Successfully subscribed to AuraSound updates!");
+        }
+
+        // Mobile Menu Navigation Toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        document.getElementById('open-cart-btn').addEventListener('click', openCart);
+
+        // --- INITIALIZATION ---
+        window.onload = function () {
+            resizeVizCanvas();
+            drawSpeaker();
+            renderVisualizer();
+            setActiveHotspot(1);
+            renderReviews('all');
+            updateCart();
+        };
+    </script>
+</body>
+</html>
